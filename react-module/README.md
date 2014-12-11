@@ -54,7 +54,7 @@ up as the default in package.json.
 
 ### npm scripts
 
-`npm run watch` - watch `src/', transpiling source code into `lib/`, linting and
+`npm run watch` - watch `src/`, transpiling source code into `lib/`, linting and
 creating a browser bundle in `dist/` on every change.
 
 `npm run debug` - does the same as `npm run watch` but also includes a sourcemap
