@@ -32,7 +32,7 @@ React is configured as a [peer dependency](http://blog.nodejs.org/2013/02/07/pee
 to avoid silently pulling in multiple versions of React if there's a mismatch
 with the version expected by your module and any project it's being used in.
 
-Default `browserify-shim` config is set up to shim both `require('react') and
+Default `browserify-shim` config is set up to shim both `require('react')` and
 `require('react/addons')` to a global `React` variable in the browser bundle. If
 you have other dependencies which ship browser global versions, add them in here
 in the same manner.
@@ -45,10 +45,10 @@ lives in `src/`.
 JavaScript is transpiled from `src/` into `lib/` - this is what will get
 published to npm if you run `npm publish`.
 
-The entry point for the module is expected to be './lib/index.js' - this is set
+The entry point for the module is expected to be `./lib/index.js` - this is set
 up as the default in package.json.
 
-`.gitignore` is preconfigured to ignore 'lib/' and `node_modules/`
+`.gitignore` is preconfigured to ignore `lib/` and `node_modules/`
 
 `.npmignore` is preconfigured to ignore almost everything except `lib/`.
 
