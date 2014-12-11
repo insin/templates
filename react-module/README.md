@@ -39,7 +39,7 @@ in the same manner.
 
 ### Directory structure
 
-Source code (which may use JSX and [ES6 transforms supported by react-tools](https://github.com/facebook/jstransform/tree/master/visitors))
+CommonJS source code (which may use JSX and [ES6 transforms supported by react-tools](https://github.com/facebook/jstransform/tree/master/visitors))
 lives in `src/`.
 
 JavaScript is transpiled from `src/` into `lib/` - this is what will get
