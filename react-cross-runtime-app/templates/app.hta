@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <hta:application applicationname="App" scroll="yes" singleinstance="yes">
+  <meta http-equiv="x-ua-compatible" content="ie=9">
+  <meta charset="utf-8">
+  <title>App</title>
+  <script>
+/**
+ * Base64 encode / decode
+ * http://www.webtoolkit.info/
+ * Used to shim window.btoa for IE9, for superagent basic auth.
+ */
+!function(){"use strict";var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(a){var c,d,e,f,g,h,i,b="",j=0;for(a=Base64._utf8_encode(a);j<a.length;)c=a.charCodeAt(j++),d=a.charCodeAt(j++),e=a.charCodeAt(j++),f=c>>2,g=(3&c)<<4|d>>4,h=(15&d)<<2|e>>6,i=63&e,isNaN(d)?h=i=64:isNaN(e)&&(i=64),b=b+this._keyStr.charAt(f)+this._keyStr.charAt(g)+this._keyStr.charAt(h)+this._keyStr.charAt(i);return b},decode:function(a){var c,d,e,f,g,h,i,b="",j=0;for(a=a.replace(/[^A-Za-z0-9\+\/\=]/g,"");j<a.length;)f=this._keyStr.indexOf(a.charAt(j++)),g=this._keyStr.indexOf(a.charAt(j++)),h=this._keyStr.indexOf(a.charAt(j++)),i=this._keyStr.indexOf(a.charAt(j++)),c=f<<2|g>>4,d=(15&g)<<4|h>>2,e=(3&h)<<6|i,b+=String.fromCharCode(c),64!=h&&(b+=String.fromCharCode(d)),64!=i&&(b+=String.fromCharCode(e));return b=Base64._utf8_decode(b)},_utf8_encode:function(a){a=a.replace(/\r\n/g,"\n");for(var b="",c=0;c<a.length;c++){var d=a.charCodeAt(c);128>d?b+=String.fromCharCode(d):d>127&&2048>d?(b+=String.fromCharCode(192|d>>6),b+=String.fromCharCode(128|63&d)):(b+=String.fromCharCode(224|d>>12),b+=String.fromCharCode(128|63&d>>6),b+=String.fromCharCode(128|63&d))}return b},_utf8_decode:function(a){var d,e,f,g,b="",c=0;for(d=e=f=0;c<a.length;)d=a.charCodeAt(c),128>d?(b+=String.fromCharCode(d),c++):d>191&&224>d?(f=a.charCodeAt(c+1),b+=String.fromCharCode((31&d)<<6|63&f),c+=2):(f=a.charCodeAt(c+1),g=a.charCodeAt(c+2),b+=String.fromCharCode((15&d)<<12|(63&f)<<6|63&g),c+=3);return b}};window.btoa=Base64.encode.bind(Base64);}();
+/**
+ * console-shim 1.0.3
+ * https://github.com/kayahr/console-shim
+ * Copyright (C) 2011 Klaus Reimer <k@ailis.de>
+ * Licensed under the MIT license
+ */
+!function(){"use strict";var bind=function(a,b){var c=Array.prototype.slice.call(arguments,2);return function(){var d=c.concat(Array.prototype.slice.call(arguments,0));a.apply(b,d)}};window.console||(window.console={});var console=window.console;if(!console.log)if(window.log4javascript){var log=log4javascript.getDefaultLogger();console.log=bind(log.info,log),console.debug=bind(log.debug,log),console.info=bind(log.info,log),console.warn=bind(log.warn,log),console.error=bind(log.error,log)}else console.log=function(){};if(console.debug||(console.debug=console.log),console.info||(console.info=console.log),console.warn||(console.warn=console.log),console.error||(console.error=console.log),null!=window.__consoleShimTest__||eval("/*@cc_on @_jscript_version <= 9@*/")){var wrap=function(a){var b,c,d,e;if(a=Array.prototype.slice.call(arguments,0),e=a.shift(),c=a.length,c>1&&window.__consoleShimTest__!==!1)for("string"!=typeof a[0]&&(a.unshift("%o"),c+=1),d=a[0].match(/%[a-z]/g),b=d?d.length+1:1;c>b;b+=1)a[0]+=" %o";Function.apply.call(e,console,a)};console.log=bind(wrap,window,console.log),console.debug=bind(wrap,window,console.debug),console.info=bind(wrap,window,console.info),console.warn=bind(wrap,window,console.warn),console.error=bind(wrap,window,console.error)}if(console.assert||(console.assert=function(){var a=Array.prototype.slice.call(arguments,0),b=a.shift();b||(a[0]="Assertion failed: "+a[0],console.error.apply(console,a))}),console.dir||(console.dir=console.log),console.dirxml||(console.dirxml=console.log),console.exception||(console.exception=console.error),!console.time||!console.timeEnd){var timers={};console.time=function(a){timers[a]=(new Date).getTime()},console.timeEnd=function(a){var b=timers[a];b&&(console.log(a+": "+((new Date).getTime()-b)+"ms"),delete timers[a])}}console.table||(console.table=function(a,b){var c,d,e,f,g,h;if(a&&a instanceof Array&&a.length){if(!(b&&b instanceof Array)){b=[];for(h in a[0])a[0].hasOwnProperty(h)&&b.push(h)}for(c=0,d=a.length;d>c;c+=1){for(e=[],f=0,g=b.length;g>f;f+=1)e.push(a[c][b[f]]);Function.apply.call(console.log,console,e)}}}),console.clear||(console.clear=function(){}),console.trace||(console.trace=function(){}),console.group||(console.group=function(){}),console.groupCollapsed||(console.groupCollapsed=function(){}),console.groupEnd||(console.groupEnd=function(){}),console.timeStamp||(console.timeStamp=function(){}),console.profile||(console.profile=function(){}),console.profileEnd||(console.profileEnd=function(){}),console.count||(console.count=function(){})}();
+<%= jsDeps %>
+  </script>
+  <style>
+<%= cssDeps %>
+<%= css %>
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+<%= js %>
+  </script>
+</body>
+</html>

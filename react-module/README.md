@@ -1,4 +1,4 @@
-## Reusable React Module
+## Reusable React module
 
 A template for creating a reusable [React](http://facebook.github.io/react)
 module which will be published to npm and also provide a browser bundle which

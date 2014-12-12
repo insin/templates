@@ -1,0 +1,33 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "express": "^3.17.5",
+    "react": "~0.12.1",
+    "superagent": "~0.21.0"
+  },
+  "devDependencies": {
+    "beepbeep": "^1.2.0",
+    "browserify": "^6.3.4",
+    "del": "^1.1.0",
+    "envify": "^3.2.0",
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.2",
+    "gulp-jshint": "^1.9.0",
+    "gulp-minify-css": "~0.3.11",
+    "gulp-plumber": "~0.6.6",
+    "gulp-react": "^2.0.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-streamify": "~0.0.5",
+    "gulp-template": "^1.1.1",
+    "gulp-uglify": "^1.0.2",
+    "gulp-util": "^3.0.1",
+    "jshint-stylish": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0"
+  },
+  "scripts": {
+    "dist": "gulp deps && gulp dist --runtime=browser --production && gulp dist --runtime=hta --production",
+    "start": "node server.js"
+  }
+}
