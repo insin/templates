@@ -71,6 +71,11 @@ with a generic setup for the new runtime!
 
 ### npm scripts
 
+**Note on dependencies:** you need to run `npm run deps` or `npm run dist` to
+bundle dependencies the first time you use this template, and every time any CSS
+or JS dependencies are changed.
+
+* `npm run deps` - bundles CSS & JS dependencies into single files
 * `npm run dist` - build all dependencies, build browser version & build HTA
   version
 * `npm start` - run the dev server to serve up the browser version and proxy
@@ -78,9 +83,8 @@ with a generic setup for the new runtime!
 
 ### [Gulp](https://github.com/gulpjs/gulp/) tasks
 
-Running `gulp` or `gulp watch` will lint and rebuild (the browser version, by
-default) every time anything in `/src`, `/public/css` or `/templates` is
-modified.
+`gulp` or `gulp watch` will lint and rebuild (the browser version, by default)
+every time anything in `/src`, `/public/css` or `/templates` is modified.
 
 ES6 transforms will be run for all code by React's JSX transpiler.
 

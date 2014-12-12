@@ -32,6 +32,7 @@
     "vinyl-source-stream": "^1.0.0"
   },
   "scripts": {
+    "deps": "gulp deps",
     "dist": "gulp deps && gulp dist --runtime=browser --production && gulp dist --runtime=hta --production",
     "start": "node server.js"
   }
