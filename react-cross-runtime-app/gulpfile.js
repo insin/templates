@@ -21,7 +21,7 @@ var RUNTIMES = ['browser', 'hta']
 
 var pkg = require('./package.json')
 var runtime = gutil.env.runtime || 'browser'
-if (!RUNTIMES[runtime]) {
+if (RUNTIMES.indexOf(runtime) == -1) {
   throw new Error('Invalid runtime: "' + runtime + '". Must be one of: ' +
                   RUNTIMES.join(', '))
 }
@@ -30,7 +30,7 @@ var production = gutil.env.production
 var cssSrcFiles = './public/css/style.css'
 var cssExt = (production ? 'min.css' : 'css')
 
-var jsSrcFiles = ['./src/**/*.js', './src/**/*.jx']
+var jsSrcFiles = './src/**/*.js*'
 var jsBuildFiles = './build/modules/**/*.js'
 var jsExt = (production ? 'min.js' : 'js')
 
@@ -71,12 +71,6 @@ gulp.task('clean-modules', function(cb) {
   del('./build/modules/**', cb)
 })
 
-/** Copy non-jsx JavaScript to /build/modules */
-gulp.task('copy-js', ['clean-modules'], function() {
-  return gulp.src(jsSrcFiles)
-    .pipe(gulp.dest('./build/modules'))
-})
-
 /** Transpile JSX to JavaScript and run ES6 transforms on all code. */
 gulp.task('transpile-js', ['clean-modules'], function() {
   return gulp.src(jsSrcFiles)
@@ -88,7 +82,7 @@ gulp.task('transpile-js', ['clean-modules'], function() {
 })
 
 /** Lint everything in /build/modules */
-gulp.task('lint', ['transpile-jsx'], function() {
+gulp.task('lint', ['transpile-js'], function() {
   return gulp.src(jsBuildFiles)
     .pipe(jshint('./.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'))
@@ -98,7 +92,7 @@ var broken = false
 var needsFixed = false
 
 /** Bundle app.js */
-gulp.task('build', ['lint'], function() {
+gulp.task('bundle-js', ['lint'], function() {
   var b = browserify('./build/modules/app.js', {
     debug: runtime == 'browser' && !production
   , detectGlobals: false
@@ -152,7 +146,7 @@ gulp.task('clean-dist', function(cb) {
 })
 
 /** Copy CSS and JavaScript to /dist for browser builds */
-gulp.task('copy-dist', ['clean-dist', 'build', 'minify-css'], function(cb) {
+gulp.task('copy-dist', ['clean-dist', 'bundle-js', 'minify-css'], function(cb) {
   if (runtime == 'browser') {
     var sources = ['./build/*.' + jsExt, './build/*.' + cssExt]
     if (!production) {
@@ -189,7 +183,7 @@ gulp.task('dist', ['copy-dist'], function() {
 
 /** Rebuild and redistribute on changes */
 gulp.task('watch', function() {
-  gulp.watch(jsSrcFiles.concat(['./public/css/*.css','./templates/*']), ['dist'])
+  gulp.watch([jsSrcFiles, './public/css/*.css','./templates/*'], ['dist'])
 })
 
-gulp.task('default', ['watch'])
+gulp.task('default', ['dist', 'watch'])
