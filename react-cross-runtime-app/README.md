@@ -1,8 +1,9 @@
 ## Cross-runtime React app
 
-A template for creating apps which can be devloped in a browser, but will be
-distributed for other runtimes - by default, it's set up for Internet Explorer
-HTA apps, but it's easy to add other runtimes.
+A template for creating a [React](http://facebook.github.io/react) app which can
+be devloped in a browser, but will be distributed for other runtimes - by
+default, it's set up for Internet Explorer HTA apps, but it's easy to add other
+runtimes.
 
 ### Browser
 
