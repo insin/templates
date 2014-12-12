@@ -1,32 +1,42 @@
-var exec = require('child_process').exec
 var path = require('path')
 
+var bodyParser = require('body-parser')
+var compression = require('compression')
+var errorhandler = require('errorhandler')
 var express = require('express')
+var logger = require('morgan')
+var serveStatic = require('serve-static')
 var superagent = require('superagent')
 
-var app = express()
 var pkg = require('./package.json')
 
-app.use(express.logger())
-app.use(express.json())
-app.use(app.router)
-app.use(express.compress())
-app.use(express.static(path.join(__dirname, './dist/browser')))
-app.use(express.errorHandler({dumpExceptions: true, showStack: true }))
+var app = express()
+
+app.set('port', process.env.PORT || 3000)
+app.set('host', process.env.HOST || '0.0.0.0')
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(compression())
+app.use(serveStatic(path.join(__dirname, './dist/browser')))
 
 app.post('/proxy', function(req, res, next) {
-  superagent.get(req.body.url)
-    .auth(req.body.username, req.body.password)
-    .accept('json')
-    .end(function(err, apiRes) {
-      if (err) { return next(err) }
-      res.status(apiRes.status)
-      res.type('json')
-      res.send(apiRes.text)
-    })
+  var proxyReq = superagent.get(req.body.url)
+  if (req.body.username && req.body.password) {
+    proxyReq.auth(req.body.username, req.body.password)
+  }
+  proxyReq.accept('json').end(function(err, proxyRes) {
+    if (err) { return next(err) }
+    res.status(proxyRes.status)
+    res.type('json')
+    res.send(proxyRes.text)
+  })
 })
 
-var port = process.env.PORT || 3000
-var host = process.env.HOST || '0.0.0.0'
-app.listen(port, host)
-console.log(pkg.name + ' dev server listening on http://' + host + ':' + port)
+if ('development' == app.get('env')) {
+  app.use(errorhandler())
+}
+
+app.listen(app.get('port'), app.get('host'), function() {
+  console.log(pkg.name + ' dev server listening on http://' + app.get('host') +
+              ':' + app.get('port'))
+})

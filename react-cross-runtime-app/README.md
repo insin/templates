@@ -8,10 +8,12 @@ runtimes.
 ### Browser
 
 `server.js` configures a basic express server to serve the app from
-`./dist/browser` and provide a route to proxy external API requests through.
+`./dist/browser` and provides a route to proxy external API GET requests
+through.
 
-To use this, POST some JSON to `/proxy` with `url`, `username` and `password`
-properties.
+To use this, POST some JSON to `/proxy` with a `url` property. If you provide
+`username` and `password` properties, the request will be authenticated using
+basic auth.
 
 ### HTML Applications (HTA)
 
