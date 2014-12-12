@@ -1,14 +1,16 @@
 ## Cross-runtime React app
 
-A template for creating apps which can be devloped in a browser, but may also be
-distributed for other runtimes - by default, it's set up for.
+A template for creating apps which can be devloped in a browser, but will be
+distributed for other runtimes - by default, it's set up for Internet Explorer
+HTA apps, but it's easy to add other runtimes.
 
 ### Browser
 
 `server.js` configures a basic express server to serve the app from
 `./dist/browser` and provide a route to proxy external API requests through.
 
-To use this, POST to `/proxy` with `url`, `username` and `password` parameters.
+To use this, POST some JSON to `/proxy` with `url`, `username` and `password`
+properties.
 
 ### HTML Applications (HTA)
 
@@ -36,9 +38,12 @@ project's minified JavaScript and CSS into a single file.
 
 To add a new runtime, edit `gulpfile.js`:
 
-* add the name you want to use for the new runtime to the `RUNTIMES` list.
-* implement distribution steps for the new runtime in the `copy-dist` and
-  `dist` tasks.
+* add the name you want to use for the runtime to the `RUNTIMES` list.
+* implement distribution steps for the runtime in the `copy-dist` and `dist`
+  tasks.
+
+Optional step: create a [pull request](https://github.com/insin/templates/pulls)
+with a generic setup for the new runtime!
 
 ### Directory structure
 
