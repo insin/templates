@@ -17,7 +17,7 @@ The build script requires the following to be set up in package.json:
 
 * `name` - used as the browser bundle filename and in its header comment
 * `standalone` - global variable name exported from the browser bundle
-* `mail` - entry point for the module; default is `'./lib/index.js'`
+* `main` - entry point for the module; default is `'./lib/index.js'`
 * `version` - default is `'1.0.0'`
 * `homepage` - used in the browser bundle header comment
 * `license` - used in the browser bundle header comment; default is `'MIT'` (a
