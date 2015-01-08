@@ -7,6 +7,9 @@
   "homepage": "<homepage URL>",
   "license": "MIT",
   "author": "",
+  "keywords": [
+    "react"
+  ],
   "dependencies": {},
   "peerDependencies": {
     "react": ">=0.12.0"
