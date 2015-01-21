@@ -17,7 +17,7 @@ basic auth.
 
 ### [NW.js](https://github.com/nwjs/nw.js)
 
-An `<appname>.pw` zip file will be created in `./dist/nwjs`.
+An `<appname>.nw` zip file will be created in `./dist/nwjs`.
 
 This currently just reuses the browser bundle.
 

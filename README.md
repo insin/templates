@@ -12,7 +12,7 @@ exports a single global variable.
 
 A template for creating a [React](http://facebook.github.io/react) app which can
 be developed in a browser, but will be distributed for other runtimes - by
-default, it's set up for Internet Explorer HTA apps, but it's easy to add other
-runtimes.
+default, it's set up for [NW.js](https://github.com/nwjs/nw.js) and Internet
+Explorer HTA apps.
 
 ### MIT Licensed
