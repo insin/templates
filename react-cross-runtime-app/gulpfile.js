@@ -164,6 +164,7 @@ gulp.task('template-index', ['copy-dist'], function() {
     .pipe(template({
       cssExt: cssExt
     , jsExt: jsExt
+    , title: pkg.title
     }))
     .pipe(gulp.dest('./dist/' + runtime))
 })
@@ -182,6 +183,7 @@ gulp.task('dist-hta', ['copy-dist'], function() {
     , cssDeps: fs.readFileSync('./build/deps.' + cssExt)
     , js: fs.readFileSync('./build/app.' + jsExt)
     , jsDeps: fs.readFileSync('./build/deps.' + jsExt)
+    , title: pkg.title
     }))
     .pipe(gulp.dest('./dist/hta'))
 })
@@ -195,7 +197,8 @@ gulp.task('dist-nwjs', ['template-index'], function() {
     name: pkg.name
   , main: 'index.html'
   , window: {
-      toolbar: !production
+      title: pkg.title
+    , toolbar: !production
     }
   }
   fs.writeFileSync('./dist/nwjs/package.json', JSON.stringify(nwjsManifest, null, 2))
