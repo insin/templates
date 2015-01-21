@@ -84,8 +84,7 @@ bundle dependencies the first time you use this template, and every time any CSS
 or JS dependencies are changed.
 
 * `npm run deps` - bundles CSS & JS dependencies into single files
-* `npm run dist` - build all dependencies, build browser version & build HTA
-  version
+* `npm run dist` - build all dependencies and create all runtime distributions
 * `npm start` - run the dev server to serve up the browser version and proxy
   HTTP requests to external APIs
 
@@ -115,10 +114,9 @@ twice. It will beep once when the problem is subsequently fixed.
 * `--production` - when passed, minified versions of CSS & JS will be generated
   and used. Otherwise, original versions will be used and the browser version's
   JavaScript will include a sourcemap.
-* `--runtime=(browser|hta)` - controls which version gets built. Defaults to
-  `"browser"`. You should only need this if you want to build the HTA version on
-  every change while testing it or working on HTA-only code:
-  `gulp watch --runtime=hta`
+* `--runtime=(browser|hta|nwjs)` - controls which version gets built. Defaults
+  to `"browser"`. You should only need this if you want to build for a
+  non-browser runtime on every change.
 
 **Environment variables, `envify` and `uglify`**
 
@@ -158,4 +156,4 @@ When [`uglify`](https://github.com/mishoo/UglifyJS2) is run during a
 `--production` build, its dead code elimination will identify code which will
 never get executed for the runtime that's currently being built (which will now
 look like, e.g `if ('hta' === "browser")`) and remove the code from the
-minified version entirely (hence the du)
+minified version entirely.
