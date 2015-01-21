@@ -16,8 +16,9 @@ var rename = require('gulp-rename')
 var streamify = require('gulp-streamify')
 var template = require('gulp-template')
 var uglify = require('gulp-uglify')
+var zip = require('gulp-zip')
 
-var RUNTIMES = ['browser', 'hta']
+var RUNTIMES = ['browser', 'hta', 'nwjs']
 
 var pkg = require('./package.json')
 var runtime = gutil.env.runtime || 'browser'
@@ -147,39 +148,64 @@ gulp.task('clean-dist', function(cb) {
 
 /** Copy CSS and JavaScript to /dist for browser builds */
 gulp.task('copy-dist', ['clean-dist', 'bundle-js', 'minify-css'], function(cb) {
-  if (runtime == 'browser') {
+  if (runtime == 'browser' || runtime == 'nwjs') {
     var sources = ['./build/*.' + jsExt, './build/*.' + cssExt]
     if (!production) {
       sources = sources.concat(['!./build/*.min.js', '!./build/*.min.css'])
     }
-    return gulp.src(sources).pipe(gulp.dest('./dist/browser'))
+    return gulp.src(sources).pipe(gulp.dest('./dist/' + runtime))
   }
   cb()
 })
 
-/** Template the appropriate file for the target runtime */
-gulp.task('dist', ['copy-dist'], function() {
-  if (runtime == 'browser') {
-    gulp.src('./templates/index.html')
-      .pipe(template({
-        cssExt: cssExt
-      , jsExt: jsExt
-      }))
-      .pipe(gulp.dest('./dist/browser'))
-  }
-  // For the HTA version, copy all CSS and JS directly into the .hta template
-  // for a single file to distribute.
-  if (runtime == 'hta') {
-    gulp.src('./templates/' + pkg.name + '.hta')
-      .pipe(template({
-        css: fs.readFileSync('./build/style.' + cssExt)
-      , cssDeps: fs.readFileSync('./build/deps.' + cssExt)
-      , js: fs.readFileSync('./build/app.' + jsExt)
-      , jsDeps: fs.readFileSync('./build/deps.' + jsExt)
-      }))
-      .pipe(gulp.dest('./dist/hta'))
-  }
+/** Template index.html to point at the appopriate files for the build. */
+gulp.task('template-index', ['copy-dist'], function() {
+  return gulp.src('./templates/index.html')
+    .pipe(template({
+      cssExt: cssExt
+    , jsExt: jsExt
+    }))
+    .pipe(gulp.dest('./dist/' + runtime))
 })
+
+/** For the browser version, just template index.html. */
+gulp.task('dist-browser', ['template-index'])
+
+/**
+ * For the HTA version, copy all CSS and JS directly into the .hta template
+ * for a single file to distribute.#
+ */
+gulp.task('dist-hta', ['copy-dist'], function() {
+  return gulp.src('./templates/' + pkg.name + '.hta')
+    .pipe(template({
+      css: fs.readFileSync('./build/style.' + cssExt)
+    , cssDeps: fs.readFileSync('./build/deps.' + cssExt)
+    , js: fs.readFileSync('./build/app.' + jsExt)
+    , jsDeps: fs.readFileSync('./build/deps.' + jsExt)
+    }))
+    .pipe(gulp.dest('./dist/hta'))
+})
+
+/**
+ * For the NW.js version, create a package.json manifest and zip the app up into
+ * package.pw for distribution.
+ */
+gulp.task('dist-nwjs', ['template-index'], function() {
+  var nwjsManifest = {
+    name: pkg.name
+  , main: 'index.html'
+  , window: {
+      toolbar: !production
+    }
+  }
+  fs.writeFileSync('./dist/nwjs/package.json', JSON.stringify(nwjsManifest, null, 2))
+
+  return gulp.src('./dist/nwjs/*')
+    .pipe(zip(pkg.name + '.nw'))
+    .pipe(gulp.dest('./dist/nwjs'))
+})
+
+gulp.task('dist', ['dist-' + runtime])
 
 /** Rebuild and redistribute on changes */
 gulp.task('watch', function() {

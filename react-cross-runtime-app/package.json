@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "dependencies": {
     "body-parser": "^1.10.1",
@@ -28,12 +28,13 @@
     "gulp-template": "^2.0.0",
     "gulp-uglify": "^1.0.2",
     "gulp-util": "^3.0.2",
+    "gulp-zip": "^2.0.2",
     "jshint-stylish": "^1.0.0",
     "vinyl-source-stream": "^1.0.0"
   },
   "scripts": {
     "deps": "gulp deps",
-    "dist": "gulp deps && gulp dist --runtime=browser --production && gulp dist --runtime=hta --production",
+    "dist": "gulp deps && gulp dist --runtime=browser --production && gulp dist --runtime=nwjs --production && gulp dist --runtime=hta --production",
     "start": "node server.js"
   }
 }

@@ -15,13 +15,18 @@ To use this, POST some JSON to `/proxy` with a `url` property. If you provide
 `username` and `password` properties, the request will be authenticated using
 basic auth.
 
-### HTML Applications (HTA)
+### [NW.js](https://github.com/nwjs/nw.js)
 
-If you work in an organisation that runs Windows, an
-[HTML Application](http://en.wikipedia.org/wiki/HTML_Application) (HTA) is a
-handy way to distribute browser-based tools as a single file, which needs
-nothing additional installed to run and doesn't need to have a multi-MB runtime
-distributed with it.
+An `<appname>.pw` zip file will be created in `./dist/nwjs`.
+
+This currently just reuses the browser bundle.
+
+### [HTML Application](http://en.wikipedia.org/wiki/HTML_Application) (HTA)
+
+If you work in an organisation that runs Windows, an HTA is a handy way to
+distribute browser-based tools as a single file, which needs nothing additional
+installed to run and doesn't need to have a multi-MB runtime distributed with
+it.
 
 HTAs run Internet Explorer with the permissions of a "fully trusted"
 application, bypassing cross-domain restrictions for HTTP requests and granting
@@ -55,15 +60,16 @@ with a generic setup for the new runtime!
 ├── build               build directory
 ├── dist
 │   ├── browser         final browser build
-│   └── hta             final HTA build
+│   ├── hta             final HTA build
+│   └── nwjs            final NW.js build
 ├── public
 │   └── css
 │       └── style.css   app-specific CSS
 ├── src
 │   └── app.js          entrypoint for the application
 ├── templates
-│   ├── index.html      template for browser version: handles .min.(css|js) extensions
-│   └── <app>.hta       template for HTA version, inlines all CSS & JS
+│   ├── index.html      template for browser & NW.js: handles .min.(css|js) extensions
+│   └── <app>.hta       template for HTA, inlines all CSS & JS
 ├── vendor
 │   └── css             vendored CSS (e.g. Bootstrap)
 └── server.js           dev server
@@ -119,15 +125,15 @@ The build uses [`envify`](https://github.com/hughsk/envify), so references to
 these in your code will be replaced with a string containing the value of the
 environment variable:
 
-* `process.env.RUNTIME` - `"browser"` or `"hta"`, depending on which version is
-  being built
+* `process.env.RUNTIME` - `"browser"`, `"hta"` or `"nwjs"`, depending on which
+  version is being built
 * `process.env.NODE_ENV` - `"development"` or `"production"`, depending on which
   version is being built
 * `process.env.VERSION` - the contents of the version field from `package.json`
 
-This allows you to fence off code for each version - e.g. to hit an API URL
-directly from the HTA version, but go through the dev server's `/proxy` URL for
-the browser version, you might do something like:
+This allows you to fence off code for each version - e.g. to go through the dev
+server's `/proxy` URL for the browser version but hit an API URL directly from
+other versions, you might do something like:
 
 ```javascript
 var req
@@ -138,7 +144,7 @@ if ('browser' === process.env.RUNTIME) {
   , password: credentials.password
   })
 }
-if ('hta' === process.env.RUNTIME) {
+if ('browser' !== process.env.RUNTIME) {
   req = superagent.get(url).auth(credentials.username, credentials.password)
 }
 
@@ -150,4 +156,4 @@ When [`uglify`](https://github.com/mishoo/UglifyJS2) is run during a
 `--production` build, its dead code elimination will identify code which will
 never get executed for the runtime that's currently being built (which will now
 look like, e.g `if ('hta' === "browser")`) and remove the code from the
-minified version entirely.
+minified version entirely (hence the du)
