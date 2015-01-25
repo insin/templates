@@ -32,7 +32,7 @@
   },
   "scripts": {
     "debug": "gulp --debug",
-    "dist": "gulp bundle-js --production",
+    "dist": "gulp bundle-js --production --release",
     "watch": "gulp"
   },
   "browserify-shim": {

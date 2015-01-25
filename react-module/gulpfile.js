@@ -13,7 +13,7 @@ var uglify = require('gulp-uglify')
 var gutil = require('gulp-util')
 
 var pkg = require('./package.json')
-var devBuild = gutil.env.production ? '' : ' (dev build at ' + (new Date()).toUTCString() + ')'
+var devBuild = gutil.env.release ? '' : ' (dev build at ' + (new Date()).toUTCString() + ')'
 var distHeader = '/*!\n\
  * <%= pkg.name %> <%= pkg.version %><%= devBuild %> - <%= pkg.homepage %>\n\
  * <%= pkg.license %> Licensed\n\
