@@ -1,10 +1,10 @@
 {
-  "name": "<module name>",
+  "name": "react-module",
   "description": "",
   "version": "1.0.0",
   "main": "./lib/index.js",
-  "standalone": "<browser global variable name>",
-  "homepage": "<homepage URL>",
+  "standalone": "ReactModule",
+  "homepage": "",
   "license": "MIT",
   "author": "",
   "keywords": [
