@@ -1,7 +1,7 @@
 {
   "name": "app",
   "title": "App",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "",
   "dependencies": {
     "body-parser": "^1.12.2",
@@ -29,6 +29,7 @@
     "gulp-template": "^3.0.0",
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.4",
+    "gulp-zip": "^2.0.3",
     "jshint-stylish": "^1.0.1",
     "vinyl-source-stream": "^1.1.0"
   },
